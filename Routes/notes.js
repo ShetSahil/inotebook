@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+
+router.get('/',(req,res)=>{
+    // obj={
+    //     name:Sahil,
+    //     number:54
+    // }
+    res.json([]);
+})
+module.exports= router
