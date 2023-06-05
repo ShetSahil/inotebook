@@ -5,8 +5,9 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/User') ;
 const JWT_SECRET = "sahilisagoodb$y";
 var jwt = require('jsonwebtoken');
+const fetchuser = require('../middleware/fetchuser')
 
-
+//ROUTE:1
 router.post('/createuser',[
     body('name', 'Enter you valid name').isLength({min:3}),
     body('email', 'Enter you valid email').isEmail(),
@@ -53,7 +54,7 @@ router.post('/createuser',[
 })
 
 
-//authenticating the user
+//ROUTE:2 =authenticating the user
 
 router.post('/login',[
 
@@ -87,5 +88,17 @@ router.post('/login',[
             console.error(error.message);
             res.status(500).send("Internal errorr");
         }
+})
+
+//ROUTE:3
+router.post('/getuser',fetchuser,async(req,res)=>{
+   try {
+    userId=req.user.id;
+    const user = await User.findById(userId).select("-password")
+    res.send(user);
+   } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal errorr");
+}
 })
 module.exports= router
